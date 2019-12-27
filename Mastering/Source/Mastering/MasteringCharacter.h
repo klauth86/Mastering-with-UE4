@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MasteringProjectile.h"
+#include "MasteringInventory.h"
 #include "MasteringCharacter.generated.h"
 
 class UInputComponent;
