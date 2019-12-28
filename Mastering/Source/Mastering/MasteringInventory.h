@@ -74,7 +74,10 @@ public:
 	/** Add a weapon to the inventory list */
 	void AddWeapon(FWeaponProperties props);
 
-	/** Get the currently selected weapon */
+	FORCEINLINE TArray<FWeaponProperties>& GetWeaponsArray() { return WeaponsArray; }
+
+	FORCEINLINE int GetCurrentWeaponPower() const { return CurrentWeaponPower;  }
+
 	FORCEINLINE TSubclassOf<class AMasteringWeapon> GetCurrentWeapon() const { return CurrentWeapon; }
 
 	/** Change a weapon's ammo count, can't go below 0 or over 999 */

@@ -30,11 +30,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		TSubclassOf<class UMasteringInventoryDisplay> InventoryDisplayClass;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	//	TSubclassOf<class UMainMenuWidget> MainMenuClass;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<class UMainMenuWidget> MainMenuClass;
 
 	class UMasteringInventoryDisplay* InventoryHUD;
-	//class UMainMenuWidget* MainMenu;
+	class UMainMenuWidget* MainMenu;
 	class UMasteringInventory* Inventory;
 
 	bool bNeedsInventoryInit = true;

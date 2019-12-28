@@ -26,6 +26,10 @@ class AMasteringCharacter : public ACharacter
 public:
 	AMasteringCharacter();
 
+	virtual void SetInventory(class UMasteringInventory* Inv);
+
+	virtual void InitializeInventoryHUD();
+
 protected:
 	virtual void BeginPlay();
 
@@ -43,6 +47,8 @@ public:
 
 protected:
 	
+	void ToggleMainMenu();
+
 	/** Fires a projectile. */
 	void OnFire();
 

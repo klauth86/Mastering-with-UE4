@@ -7,6 +7,7 @@
 #include "CanvasItem.h"
 #include "UObject/ConstructorHelpers.h"
 #include "MasteringInventoryDisplay.h"
+#include "MainMenuWidget.h"
 
 AMasteringHUD::AMasteringHUD()
 {
@@ -23,15 +24,15 @@ void AMasteringHUD::BeginPlay() {
 		InventoryHUD->AddToViewport();
 	}
 
-	//if (MainMenuClass != nullptr) {
-	//	MainMenu = CreateWidget<UMainMenuWidget>(GetOwningPlayerController(), MainMenuClass);
-	//	checkSlow(MainMenu != nullptr);
+	if (MainMenuClass != nullptr) {
+		MainMenu = CreateWidget<UMainMenuWidget>(GetOwningPlayerController(), MainMenuClass);
+		checkSlow(MainMenu != nullptr);
 
-	//	MainMenu->AddToViewport();
+		MainMenu->AddToViewport();
 
-	//	MainMenu->OnGameLoadedFixup(GetWorld());
-	//	MainMenu->Close();
-	//}
+		MainMenu->OnGameLoadedFixup(GetWorld());
+		MainMenu->Close();
+	}
 }
 
 void AMasteringHUD::DrawHUD() {
@@ -73,10 +74,10 @@ void AMasteringHUD::InitializeInventory(class UMasteringInventory* PlayerInvento
 }
 
 void AMasteringHUD::ToggleMainMenu() {
-	//if (MainMenu != nullptr) {
-	//	if (MainMenu->GetVisibility() == ESlateVisibility::Visible)
-	//		MainMenu->Close();
-	//	else
-	//		MainMenu->Open();
-	//}
+	if (MainMenu != nullptr) {
+		if (MainMenu->GetVisibility() == ESlateVisibility::Visible)
+			MainMenu->Close();
+		else
+			MainMenu->Open();
+	}
 }

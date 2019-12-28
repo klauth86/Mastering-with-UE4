@@ -98,6 +98,31 @@ void AMasteringCharacter::SetupPlayerInputComponent(class UInputComponent* Playe
 
 	PlayerInputComponent->BindAction("InventoryUp", IE_Pressed, this, &AMasteringCharacter::SelectNextWeapon);
 	PlayerInputComponent->BindAction("InventoryDown", IE_Pressed, this, &AMasteringCharacter::SelectPreviousWeapon);
+
+	PlayerInputComponent->BindAction("ToggleMainMenu", IE_Pressed, this, &AMasteringCharacter::ToggleMainMenu);
+}
+
+void AMasteringCharacter::ToggleMainMenu() {
+	AMasteringHUD* HUD = Cast<AMasteringHUD>(CastChecked<APlayerController>(GetController())->GetHUD());
+	if (HUD != nullptr) {
+		HUD->ToggleMainMenu();
+	}
+}
+
+void AMasteringCharacter::SetInventory(UMasteringInventory* Inv) {
+	Inventory = Inv;
+	InitializeInventoryHUD();
+}
+
+
+void AMasteringCharacter::InitializeInventoryHUD() {
+	APlayerController* player = CastChecked<APlayerController>(GetController());
+
+	AMasteringHUD* HUD = Cast<AMasteringHUD>(player->GetHUD());
+
+	if (HUD != nullptr) {
+		HUD->InitializeInventory(Inventory);
+	}
 }
 
 void AMasteringCharacter::OnFire()
