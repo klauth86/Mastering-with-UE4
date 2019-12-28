@@ -13,6 +13,7 @@
 #include "XRMotionControllerBase.h" // for FXRMotionControllerBase::RightHandSourceId
 #include "MasteringInventory.h"
 #include "MasteringWeapon.h"
+#include "MasteringHUD.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -54,6 +55,12 @@ void AMasteringCharacter::BeginPlay()
 	// Equip our best weapon on startup
 	if (Inventory != nullptr) {
 		Inventory->SelectBestWeapon();
+	}
+
+	AMasteringHUD* HUD = Cast<AMasteringHUD>(CastChecked<APlayerController>(GetController())->GetHUD());
+
+	if (HUD != nullptr) {
+		HUD->InitializeInventory(Inventory);
 	}
 }
 
@@ -98,9 +105,10 @@ void AMasteringCharacter::OnFire()
 	// try and fire a projectile
 	if (GetEquippedWeapon() != nullptr) {
 		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		GetEquippedWeapon()->Fire(GetControlRotation(), AnimInstance);
+		auto equippedWeapon = GetEquippedWeapon();
+		equippedWeapon->Fire(GetControlRotation(), AnimInstance);
 		// reduce ammo by one
-		Inventory->ChangeAmmo(GetClass(), -1);
+		Inventory->ChangeAmmo(equippedWeapon->GetClass(), -1);
 	}
 }
 

@@ -14,12 +14,28 @@ class AMasteringHUD : public AHUD
 public:
 	AMasteringHUD();
 
+	virtual void BeginPlay() override;
+
 	/** Primary draw call for the HUD */
 	virtual void DrawHUD() override;
 
-private:
-	/** Crosshair asset pointer */
-	class UTexture2D* CrosshairTex;
+	virtual void InitializeInventory(class UMasteringInventory* PlayerInventory);
 
+	virtual void ToggleMainMenu();
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		/** Crosshair asset pointer */
+		class UTexture2D* CrosshairTex;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<class UMasteringInventoryDisplay> InventoryDisplayClass;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	//	TSubclassOf<class UMainMenuWidget> MainMenuClass;
+
+	class UMasteringInventoryDisplay* InventoryHUD;
+	//class UMainMenuWidget* MainMenu;
+	class UMasteringInventory* Inventory;
+
+	bool bNeedsInventoryInit = true;
 };
-

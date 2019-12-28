@@ -16,6 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	AMasteringWeaponPickup();
 
+	void HavePlayerPickup(class AMasteringCharacter* Player);
 protected:
 
 	// Called when the game starts or when spawned
@@ -32,6 +33,10 @@ public:
 		TSubclassOf<class AMasteringWeapon> WeaponClass;
 	/** How fast the pickup spins while on the ground, degress/second
 	*/
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		class UTexture2D* InventoryIcon;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		float RotationSpeed = 30.0f;
 

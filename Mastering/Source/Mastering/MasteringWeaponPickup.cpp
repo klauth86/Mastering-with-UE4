@@ -23,7 +23,7 @@ void AMasteringWeaponPickup::NotifyActorBeginOverlap(AActor* OtherActor) {
 		return;
 	}
 	UMasteringInventory *Inventory = player->GetInventory();
-	Inventory->AddWeapon(WeaponClass, Ammunition, WeaponPower);
+	Inventory->AddWeapon(FWeaponProperties(WeaponClass, InventoryIcon, WeaponPower, Ammunition));
 	// here we automatically select the best weapon which may have
 	// changed after adding the above,
 	// NOTE: this should probably be an option the player can turn on
@@ -39,4 +39,19 @@ void AMasteringWeaponPickup::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 	FRotator rotationAmount(0.0f, DeltaTime * RotationSpeed, 0.0f);
 	AddActorLocalRotation(rotationAmount);
+}
+
+void AMasteringWeaponPickup::HavePlayerPickup(class AMasteringCharacter* Player) {
+	UMasteringInventory *Inventory = Player->GetInventory();
+
+	FWeaponProperties Props(WeaponClass, InventoryIcon, WeaponPower, Ammunition);
+
+	Inventory->AddWeapon(Props);
+
+	// here we automatically select the best weapon which may have changed after adding the above,
+	// NOTE: this should probably be an option the player can turn on and off via UI
+	Inventory->SelectBestWeapon();
+
+	// and now that we've done our job, destroy ourselves
+	Destroy();
 }

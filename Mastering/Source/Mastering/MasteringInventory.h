@@ -13,14 +13,28 @@ USTRUCT(Blueprintable)
 struct FWeaponProperties {
 	GENERATED_USTRUCT_BODY()
 
-public:
-	UPROPERTY()
+		FWeaponProperties() {};
+
+		FWeaponProperties(TSubclassOf<class AMasteringWeapon> Class, UTexture2D* Icon, int Power, int AmmoCount) :
+		WeaponClass(Class),
+		InventoryIcon(Icon),
+		WeaponPower(Power),
+		Ammo(AmmoCount) {}
+	
+	bool operator==(const FWeaponProperties& Other) const {
+		return Other.WeaponClass == WeaponClass;
+	}
+
+	UPROPERTY(BlueprintReadOnly)
 		TSubclassOf<class AMasteringWeapon> WeaponClass;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
+		class UTexture2D* InventoryIcon;
+
+	UPROPERTY(BlueprintReadOnly)
 		int WeaponPower;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 		int Ammo;
 };
 
@@ -37,10 +51,6 @@ public:
 
 	// Sets default values for this component's properties
 	UMasteringInventory();
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -62,13 +72,18 @@ public:
 	void SelectPreviousWeapon();
 
 	/** Add a weapon to the inventory list */
-	void AddWeapon(TSubclassOf<class AMasteringWeapon> Weapon, int AmmoCount, uint8 WeaponPower);
+	void AddWeapon(FWeaponProperties props);
 
 	/** Get the currently selected weapon */
 	FORCEINLINE TSubclassOf<class AMasteringWeapon> GetCurrentWeapon() const { return CurrentWeapon; }
 
 	/** Change a weapon's ammo count, can't go below 0 or over 999 */
 	void ChangeAmmo(TSubclassOf<class AMasteringWeapon> Weapon, const int ChangeAmount);
+
+	virtual void AddDefaultWeapon();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TSubclassOf<class AMasteringWeaponPickup> DefaultWeaponPickup;
 
 protected:
 	TArray<FWeaponProperties> WeaponsArray;
